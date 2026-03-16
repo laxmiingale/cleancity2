@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Garbage Heatmap</title>
+<link rel="stylesheet" href="g.css">
+
+<style>
+
+.heat-table{
+width:90%;
+margin:40px auto;
+border-collapse:collapse;
+background:white;
+box-shadow:0 6px 15px rgba(0,0,0,0.2);
+}
+
+.heat-table th{
+background:#1565c0;
+color:white;
+padding:12px;
+}
+
+.heat-table td{
+padding:10px;
+text-align:center;
+border-bottom:1px solid #ddd;
+}
+
+.heat-table tr:nth-child(odd){
+background:#e3f2fd;
+}
+
+.heat-table tr:nth-child(even){
+background:#e8f5e9;
+}
+
+.heat-table tr:hover{
+background:#fff3cd;
+}
+
+</style>
+
+</head>
+
+<body class="admin-bg">
+
+<nav>
+<div class="logo">Clean City</div>
+
+<ul>
+<li><a href="g.css">Home</a></li>
+<li><a href="reports.html">Reports</a></li>
+<li><a href="status.html">Complaint Status</a></li>
+<li><a href="heatmap.html">Garbage Heatmap</a></li>
+<li><a href="#" onclick="logout()">Logout</a></li>
+</ul>
+</nav>
+
+<h2 style="text-align:center">Garbage Heatmap</h2>
+
+<table class="heat-table">
+
+<tr>
+<th>Area</th>
+<th>Total Complaints</th>
+<th>Name</th>
+<th>Description</th>
+<th>Date</th>
+</tr>
+
+<tbody id="heat"></tbody>
+
+</table>
+
+<script>
+
+/* GET DATA */
+
+let heat = JSON.parse(localStorage.getItem("heatmap")) || {};
+let history = JSON.parse(localStorage.getItem("history")) || [];
+
+/* SHOW DATA */
+
+let html="";
+
+history.forEach(function(c){
+
+let total = heat[c.area] || 0;
+
+html+=`
+<tr>
+<td>${c.area}</td>
+<td>${total}</td>
+<td>${c.name}</td>
+<td>${c.desc}</td>
+<td>${c.date}</td>
+</tr>
+`;
+
+});
+
+document.getElementById("heat").innerHTML = html;
+
+
+/* LOGOUT */
+
+function logout(){
+localStorage.removeItem("admin");
+window.location="g.html";
+}
+
+</script>
+
+</body>
+</html>

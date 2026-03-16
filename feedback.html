@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<title>Feedback - Clean City</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<link rel="stylesheet" href="g.css">
+
+</head>
+
+<body class="admin-bg">
+
+<nav>
+
+<div class="logo">Clean City</div>
+
+<ul>
+<li><a href="g.html">Home</a></li>
+<li><a href="user-reports.html">View Complaints</a></li>
+<li><a href="about.html">About</a></li>
+<li><a href="contact.html">Contact</a></li>
+<li><a href="feedback.html">Feedback</a></li>
+<li><a href="view.html">View Feedback</a></li>
+</ul>
+
+</nav>
+
+<div class="form-box">
+
+<h2>Send Feedback</h2>
+
+<form id="feedbackForm">
+
+<input type="text" id="fname" placeholder="Your Name" required>
+
+<textarea id="fmsg" placeholder="Write your feedback..." required></textarea>
+
+<button type="submit">Submit Feedback</button>
+
+</form>
+
+</div>
+
+<script>
+
+let form = document.getElementById("feedbackForm");
+
+form.addEventListener("submit", function(e){
+
+e.preventDefault();
+
+let name = document.getElementById("fname").value;
+let msg = document.getElementById("fmsg").value;
+
+let feedbacks = JSON.parse(localStorage.getItem("feedbacks")) || [];
+
+let obj = {
+name:name,
+message:msg,
+date:new Date().toLocaleString()
+};
+
+feedbacks.push(obj);
+
+localStorage.setItem("feedbacks", JSON.stringify(feedbacks));
+
+alert("Feedback Submitted Successfully");
+
+form.reset();
+
+});
+
+</script>
+
+</body>
+</html>

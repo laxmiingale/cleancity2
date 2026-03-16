@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Clean City</title>
+<link rel="stylesheet" href="g.css">
+</head>
+
+<body class="admin-bg">
+
+<nav>
+
+<div class="logo">Eco Alert</div>
+
+<ul>
+<li><a href="g.html">Home</a></li>
+<li><a href="reports.html">Reports</a></li>
+<li><a href="status.html">Complaint Status</a></li>
+<li><a href="heatmap.html">Garbage Heatmap</a></li>
+<li><a href="#" onclick="logout()">Logout</a></li>
+</ul>
+
+</nav>
+
+<h2 style="text-align:center">Garbage Reports</h2>
+
+<div class="report-container" id="list"></div>
+
+<script>
+
+if(localStorage.getItem("admin")!="true"){
+alert("Admin Access Only");
+window.location="g.html";
+}
+
+let complaints = JSON.parse(localStorage.getItem("complaints")) || [];
+
+let html="";
+
+complaints.forEach((c,index)=>{
+
+html+=`
+
+<div class="report-card">
+
+<!-- Garbage Photo -->
+<img src="${c.image}" class="report-img">
+
+<!-- Cleaned Photo -->
+${c.cleanImage ? `<img src="${c.cleanImage}" class="report-img">` : ""}
+
+<!-- Upload Cleaned Photo -->
+<input type="file" accept="image/*" onchange="uploadClean(${index},this)">
+
+<div class="report-info">
+
+<h3>${c.area}</h3>
+
+<p>Name : ${c.name}</p>
+<p>Phone : ${c.phone}</p>
+<p>Waste : ${c.waste}</p>
+<p>Priority : ${c.priority}</p>
+<p>Status : ${c.status}</p>
+
+<p><b>Address:</b> ${c.address}</p>
+
+<p>Cleaning Time : ${c.cleanTime || "Not Scheduled"}</p>
+
+<div style="background:#f1f1f1;padding:10px;border-radius:6px;margin-top:8px">
+<b>Description</b><br>
+${c.desc}
+</div>
+
+<button onclick="adminDelete(${index})">Delete</button>
+
+</div>
+</div>
+
+`;
+
+});
+
+document.getElementById("list").innerHTML=html;
+
+
+/* UPLOAD CLEANED PHOTO */
+
+function uploadClean(i,input){
+
+let file = input.files[0];
+
+if(!file) return;
+
+let reader = new FileReader();
+
+reader.onload=function(){
+
+complaints[i].cleanImage = reader.result;
+
+complaints[i].status = "Completed";
+
+localStorage.setItem("complaints",JSON.stringify(complaints));
+
+alert("Cleaned Photo Uploaded");
+
+location.reload();
+
+}
+
+reader.readAsDataURL(file);
+
+}
+
+
+/* DELETE REPORT */
+
+function adminDelete(i){
+
+let pass=prompt("Enter Admin Password");
+
+if(pass=="lucky28"){
+
+complaints.splice(i,1);
+
+localStorage.setItem("complaints",JSON.stringify(complaints));
+
+location.reload();
+
+}else{
+
+alert("Wrong Password");
+
+}
+
+}
+
+
+function logout(){
+
+localStorage.removeItem("admin");
+
+window.location="g.html";
+
+}
+
+</script>
+
+</body>
+</html>

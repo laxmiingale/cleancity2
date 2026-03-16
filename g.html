@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Eco Alert</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- Mobile / App Fullscreen Support -->
+<meta name="theme-color" content="#1b5e20">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+<link rel="stylesheet" href="g.css">
+</head>
+
+<body>
+
+<video autoplay muted loop id="bgvideo">
+<source src="vang.mp4" type="video/mp4">
+</video>
+
+<nav>
+  <div class="logo">Clean City</div>
+  <ul>
+    <li><a href="g.html">Home</a></li>
+    <li><a href="user-reports.html">View Complaints</a></li>
+    <li><a href="login.html">Admin</a></li>
+    <li><a href="about1.html">About</a></li>
+    <li><a href="c.html">Contact</a></li>
+    <li><a href="feedback.html">Feedback</a></li>
+    <li><a href="view.html">View Feedback</a></li>
+  </ul>
+</nav>
+
+<div class="form-box">
+<h2>Report Garbage</h2>
+<form id="form">
+
+  <input type="text" id="name" placeholder="Name">
+
+  <input type="tel" id="phone" placeholder="Phone Number">
+
+  <input type="text" id="area" placeholder="Area / City">
+
+  <input type="text" id="address" placeholder="Manual Address (Street / Landmark)">
+
+  <select id="waste">
+    <option value="">Waste Type</option>
+    <option>Plastic</option>
+    <option>Food Waste</option>
+    <option>Mixed Waste</option>
+  </select>
+
+  <select id="priority">
+    <option value="">Priority</option>
+    <option>Low</option>
+    <option>Medium</option>
+    <option>High</option>
+  </select>
+
+  <textarea id="desc" placeholder="Description"></textarea>
+
+  <input type="file" id="image">
+
+  <video id="camera" autoplay></video>
+
+  <button type="button" id="openCam">Open Camera</button>
+  <button type="button" id="captureBtn">Capture Photo</button>
+
+  <canvas id="canvas" style="display:none;"></canvas>
+  <img id="preview">
+
+  <button type="submit">Submit Complaint</button>
+
+</form>
+</div>
+
+<!-- ========================== ADMIN LOGIN TEMPLATE ========================== -->
+<!-- Keep the same design but link IDs for JS -->
+<div class="admin-login" style="display:none;" id="adminLoginBox">
+  <h2>Admin Login</h2>
+  <input type="text" id="adminUser" placeholder="Username">
+  <input type="password" id="adminPass" placeholder="Password">
+  <button type="button" onclick="adminLogin()">Login</button>
+</div>
+
+
+<script src="script.js"></script>
+
+</body>
+</html>

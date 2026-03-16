@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<title>User Feedback - Clean City</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<link rel="stylesheet" href="g.css">
+
+<style>
+
+.feedback-card{
+background:white;
+padding:15px;
+margin:15px auto;
+width:80%;
+border-radius:10px;
+box-shadow:0 5px 15px rgba(0,0,0,0.2);
+}
+
+</style>
+
+</head>
+
+<body class="admin-bg">
+
+<nav>
+
+<div class="logo">Clean City</div>
+
+<ul>
+<li><a href="g.html">Home</a></li>
+<li><a href="user-reports.html">View Complaints</a></li>
+<li><a href="about1.html">About</a></li>
+<li><a href="c.html">Contact</a></li>
+<li><a href="feedback.html">Feedback</a></li>
+<li><a href="view-feedback.html">View Feedback</a></li>
+</ul>
+
+</nav>
+
+<h2 style="text-align:center">User Feedback</h2>
+
+<div id="feedbackList"></div>
+
+<script>
+
+function loadFeedback(){
+
+let feedbacks = JSON.parse(localStorage.getItem("feedbacks")) || [];
+
+let html="";
+
+feedbacks.reverse().forEach(function(f){
+
+html+=`
+
+<div class="feedback-card">
+
+<p><b>Name:</b> ${f.name}</p>
+
+<p><b>Feedback:</b> ${f.message}</p>
+
+<p><b>Date:</b> ${f.date}</p>
+
+</div>
+
+`;
+
+});
+
+document.getElementById("feedbackList").innerHTML = html;
+
+}
+
+loadFeedback();
+
+</script>
+
+</body>
+</html>

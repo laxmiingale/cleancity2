@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Admin Login</title>
+<link rel="stylesheet" href="g.css">
+</head>
+
+<body class="admin-bg">
+
+<div class="form-box">
+
+<h2>Admin Login</h2>
+
+<input type="text" id="user" placeholder="Username">
+<input type="password" id="pass" placeholder="Password">
+
+<button onclick="login()">Login</button>
+
+<button onclick="goHome()" style="background:#1565c0;margin-top:8px;">
+← Back to Home
+</button>
+
+</div>
+
+<script>
+
+function login(){
+
+let u=document.getElementById("user").value;
+let p=document.getElementById("pass").value;
+
+if(u=="lucky" && p=="lucky28"){
+
+localStorage.setItem("admin","true");
+
+alert("Login Successful");
+
+window.location="reports.html";
+
+}else{
+
+alert("Wrong Login");
+
+}
+
+}
+
+function goHome(){
+
+window.location="g.html";
+
+}
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Clean City - Garbage Complaints</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<link rel="stylesheet" href="g.css">
+
+<style>
+
+.search-box{
+width:90%;
+margin:20px auto;
+text-align:center;
+}
+
+.search-box input{
+width:60%;
+padding:10px;
+border-radius:5px;
+border:1px solid #ccc;
+}
+
+</style>
+
+</head>
+
+<body class="admin-bg">
+
+<nav>
+
+<div class="logo">Clean City</div>
+
+<ul>
+<li><a href="g.html">Home</a></li>
+<li><a href="user-reports.html">View Complaints</a></li>
+<li><a href="about1.html">About</a></li>
+<li><a href="c.html">Contact</a></li>
+<li><a href="feedback.html">Feedback</a></li>
+<li><a href="view.html">View Feedback</a></li>
+</ul>
+
+</nav>
+
+<h2 style="text-align:center">Garbage Complaints</h2>
+
+<!-- SEARCH BOX -->
+
+<div class="search-box">
+
+<input type="text" id="searchInput" placeholder="Search by Area, Name or Waste Type..." onkeyup="searchComplaints()">
+
+</div>
+
+<div class="report-container" id="list"></div>
+
+<script>
+
+/* LOAD COMPLAINTS */
+
+let complaints = JSON.parse(localStorage.getItem("complaints")) || [];
+
+displayComplaints(complaints);
+
+
+/* DISPLAY FUNCTION */
+
+function displayComplaints(data){
+
+let html="";
+
+data.forEach((c,index)=>{
+
+html+=`
+
+<div class="report-card">
+
+<img src="${c.image}" class="report-img">
+
+${c.cleanImage ? `<img src="${c.cleanImage}" class="report-img">` : ""}
+
+<div class="report-info">
+
+<h3>${c.area}</h3>
+
+<p>Name : ${c.name}</p>
+
+<p>Waste : ${c.waste}</p>
+
+<p>Priority : ${c.priority}</p>
+
+<p>Status : ${c.status}</p>
+
+<p>Cleaning Time : ${c.cleanTime || "Not Scheduled"}</p>
+
+<p id="timer${index}" style="color:red;font-weight:bold"></p>
+
+<p>${c.desc}</p>
+
+</div>
+
+</div>
+
+`;
+
+});
+
+document.getElementById("list").innerHTML = html;
+
+startCountdown();
+
+}
+
+
+/* SEARCH SYSTEM */
+
+function searchComplaints(){
+
+let text = document.getElementById("searchInput").value.toLowerCase();
+
+let filtered = complaints.filter(function(c){
+
+return (
+
+c.area.toLowerCase().includes(text) ||
+
+c.name.toLowerCase().includes(text) ||
+
+c.waste.toLowerCase().includes(text)
+
+);
+
+});
+
+displayComplaints(filtered);
+
+}
+
+
+/* ==========================
+TRUCK COUNTDOWN TIMER
+========================== */
+
+function startCountdown(){
+
+complaints.forEach((c,i)=>{
+
+if(c.cleanTime){
+
+let clean = new Date(c.cleanTime).getTime();
+
+setInterval(function(){
+
+let now = new Date().getTime();
+
+let diff = clean - now;
+
+if(diff > 0){
+
+let h = Math.floor(diff/(1000*60*60));
+let m = Math.floor((diff%(1000*60*60))/(1000*60));
+let s = Math.floor((diff%(1000*60))/1000);
+
+let el = document.getElementById("timer"+i);
+
+if(el){
+
+el.innerHTML =
+"🚛 Truck arriving in: " + h + "h " + m + "m " + s + "s";
+
+}
+
+}
+
+else{
+
+let el = document.getElementById("timer"+i);
+
+if(el){
+el.innerHTML = "🚛 Garbage Truck Arrived";
+}
+
+}
+
+},1000);
+
+}
+
+});
+
+}
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Complaint Status</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<link rel="stylesheet" href="g.css">
+
+<style>
+
+.pending{background:#ffcccc;}
+.progress{background:#fff3cd;}
+.completed{background:#d4edda;}
+
+</style>
+
+</head>
+
+<body class="admin-bg">
+
+<nav>
+<div class="logo">Clean City</div>
+
+<ul>
+<li><a href="reports.html">Reports</a></li>
+<li><a href="status.html">Complaint Status</a></li>
+<li><a href="heatmap.html">Garbage Heatmap</a></li>
+<li><a href="#" onclick="logout()">Logout</a></li>
+</ul>
+</nav>
+
+<h2 style="text-align:center">Complaint Status</h2>
+
+<table class="status-table">
+
+<tr>
+<th>Name</th>
+<th>Area</th>
+<th>Status</th>
+<th>Cleaning Date & Time</th>
+</tr>
+
+<tbody id="statusList"></tbody>
+
+</table>
+
+<script>
+
+let complaints = JSON.parse(localStorage.getItem("complaints")) || [];
+
+let html="";
+
+complaints.forEach((c,i)=>{
+
+let rowClass="";
+
+if(c.status=="Pending") rowClass="pending";
+if(c.status=="In Progress") rowClass="progress";
+if(c.status=="Completed") rowClass="completed";
+
+html+=`
+
+<tr class="${rowClass}">
+
+<td>${c.name}</td>
+
+<td>${c.area}</td>
+
+<td>
+
+<select onchange="updateStatus(${i},this.value)">
+
+<option ${c.status=="Pending"?"selected":""}>Pending</option>
+<option ${c.status=="In Progress"?"selected":""}>In Progress</option>
+<option ${c.status=="Completed"?"selected":""}>Completed</option>
+
+</select>
+
+</td>
+
+<td>
+
+<input type="datetime-local"
+value="${(c.cleanTime || '').replace(' ','T')}"
+onchange="updateTime(${i},this.value)">
+
+</td>
+
+</tr>
+
+`;
+
+});
+
+document.getElementById("statusList").innerHTML=html;
+
+
+/* UPDATE STATUS */
+
+function updateStatus(i,val){
+
+complaints[i].status=val;
+
+localStorage.setItem("complaints",JSON.stringify(complaints));
+
+location.reload();
+
+}
+
+
+/* UPDATE TIME (REMOVE T) */
+
+function updateTime(i,val){
+
+let formatted = val.replace("T"," ");
+
+complaints[i].cleanTime = formatted;
+
+localStorage.setItem("complaints",JSON.stringify(complaints));
+
+location.reload();
+
+}
+
+
+/* LOGOUT */
+
+function logout(){
+
+localStorage.removeItem("admin");
+
+window.location="g.html";
+
+}
+
+</script>
+
+</body>
+</html>
